@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { getUsersList } from './redux/actions/usersActions'
 
-function App() {
+function App({ getUsersList, usersList }) {
+  // get users list from api on mount
+  useEffect(() => getUsersList(), [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {usersList.map((item) => (
+        <div key={item.id}>
+          {item.firstName} {item.lastName}
+        </div>
+      ))}
     </div>
-  );
+  )
 }
 
-export default App;
+const mapStateToProps = (store) => {
+  const { usersList } = store.users
+  return {
+    usersList,
+  }
+}
+
+App.propTypes = {
+  getUsersList: PropTypes.func.isRequired,
+  usersList: PropTypes.array.isRequired,
+}
+
+export default connect(mapStateToProps, { getUsersList })(App)

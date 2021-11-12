@@ -1,0 +1,13 @@
+.root {
+    display: flex;
+    flex-direction: column;
+}
+
+.lettersList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.lettersListItem {
+    min-width: 150px;
+}

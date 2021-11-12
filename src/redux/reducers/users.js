@@ -1,4 +1,4 @@
-import { GET_USERS_LIST } from '../actions/usersActions'
+import { GET_USERS_LIST, UPDATE_USER } from '../actions/usersActions'
 
 const initialState = {
   usersList: [],
@@ -11,12 +11,10 @@ const initialState = {
 export function users(state = initialState, action) {
   switch (action.type) {
     case GET_USERS_LIST:
-      // checking users on selected
-      const updatedArray = action.payload.map((item) => {
-        if (state.selectedUsers.includes(item.id)) return { ...item, selected: true }
-        return { ...item, selected: false }
-      })
-      return { ...state, usersList: updatedArray }
+      return { ...state, usersList: action.payload }
+
+    case UPDATE_USER:
+      return { ...state, usersList: action.payload }
 
     default:
       return state

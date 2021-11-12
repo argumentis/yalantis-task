@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUsersList } from './redux/actions/usersActions'
+import EmployeesList from './components/EmployeesList'
 
 function App({ getUsersList, usersList }) {
   // get users list from api on mount
   useEffect(() => getUsersList(), [])
-
+  console.log(usersList)
   return (
-    <div className="App">
-      {usersList.map((item) => (
-        <div key={item.id}>
-          {item.firstName} {item.lastName}
-        </div>
-      ))}
+    <div className="app">
+      <div className="employeesList">
+        <EmployeesList />
+      </div>
+      <div className="employeesBirthday">list</div>
     </div>
   )
 }

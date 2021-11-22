@@ -1,18 +1,20 @@
-import PropTypes from 'prop-types'
+// base
 import React from 'react'
-import './employeesList.css'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
+
+// redux
 import { connect } from 'react-redux'
-import { getUsersList } from '../../redux/actions/usersActions'
+
+// components
+import ListItem from './ListItem'
+
+// styles
+import './employeesList.css'
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
-function EmployeesList({ usersList }) {
-  const handleChangeActive = (e) => {
-    const { value } = e.target
-    console.log(value)
-  }
-
+const EmployeesList = ({ usersList }) => {
   return (
     <div className="root">
       <h2>Employees</h2>
@@ -26,21 +28,15 @@ function EmployeesList({ usersList }) {
 
           return (
             <div key={index} className="lettersListItem">
-              <h3>{letter}</h3>
+              <h3 className="letter">{letter}</h3>
               {_.isEmpty(employeesList) ? (
-                <p>No employees</p>
+                <p className="usersList">No employees</p>
               ) : (
-                employeesList.map((employee) => {
-                  return (
-                    <div key={employee.id}>
-                      {`${employee.firstName} ${employee.lastName}`}
-                      <div onChange={handleChangeActive}>
-                        <input type="radio" value={true} name="gender" /> active
-                        <input type="radio" value={false} name="gender" /> not active
-                      </div>
-                    </div>
-                  )
-                })
+                <div className="usersList">
+                  {employeesList.map((item) => (
+                    <ListItem key={item.id} employee={item} />
+                  ))}
+                </div>
               )}
             </div>
           )
@@ -58,8 +54,7 @@ const mapStateToProps = (store) => {
 }
 
 EmployeesList.propTypes = {
-  getUsersList: PropTypes.func.isRequired,
   usersList: PropTypes.array.isRequired,
 }
 
-export default connect(mapStateToProps, { getUsersList })(EmployeesList)
+export default connect(mapStateToProps, {})(EmployeesList)

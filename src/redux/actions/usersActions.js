@@ -1,8 +1,10 @@
-export const GET_USERS_LIST = 'GET_USERS_LIST'
-export const UPDATE_USER = 'UPDATE_USER'
-
+// base
 import axios from 'axios'
 import _ from 'lodash'
+
+//actions
+export const UPDATE_USERS_LIST = 'UPDATE_USERS_LIST'
+export const UPDATE_SELECTED_LIST = 'UPDATE_SELECTED_LIST'
 
 export const getUsersList = () => {
   return (dispatch, getState) => {
@@ -16,19 +18,27 @@ export const getUsersList = () => {
           if (selectedUsers.includes(item.id)) return { ...item, selected: true }
           return { ...item, selected: false }
         })
-        dispatch({ type: 'GET_USERS_LIST', payload: upgradedArray })
+        dispatch({ type: 'UPDATE_USERS_LIST', payload: upgradedArray })
       })
       .catch((error) => alert(error))
   }
 }
 
-export const updateUser = (userId, params) => {
+export const updateUser = (userId, status) => {
   return (dispatch, getState) => {
     const usersData = _.get(getState(), 'users.usersList', [])
     const updatedArray = usersData.map((item) => {
-      if (item.id === userId) return { ...item, ...params }
+      if (item.id === userId) return { ...item, selected: status }
       return item
     })
-    dispatch({ type: 'UPDATE_USER', payload: updatedArray })
+    dispatch({ type: 'UPDATE_USERS_LIST', payload: updatedArray })
+    dispatch(updateSelectedList(updatedArray))
+  }
+}
+
+export const updateSelectedList = (list) => {
+  const updatedList = list.filter((item) => item.selected).map((item) => item.id)
+  return (dispatch) => {
+    dispatch({ type: 'UPDATE_SELECTED_LIST', payload: updatedList })
   }
 }

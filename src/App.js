@@ -1,29 +1,32 @@
-import './App.css'
+// base
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+
+// redux
 import { connect } from 'react-redux'
 import { getUsersList } from './redux/actions/usersActions'
-import EmployeesList from './components/EmployeesList'
 
-function App({ getUsersList, usersList }) {
+// styles
+import './App.css'
+
+// components
+import EmployeesList from './components/EmployeesList'
+import EmployeesBirthday from './components/EmployeesBirthday'
+
+const App = ({ getUsersList }) => {
   // get users list from api on mount
   useEffect(() => getUsersList(), [])
-  console.log(usersList)
+
   return (
     <div className="app">
       <div className="employeesList">
         <EmployeesList />
       </div>
-      <div className="employeesBirthday">list</div>
+      <div className="employeesBirthday">
+        <EmployeesBirthday />
+      </div>
     </div>
   )
-}
-
-const mapStateToProps = (store) => {
-  const { usersList } = store.users
-  return {
-    usersList,
-  }
 }
 
 App.propTypes = {
@@ -31,4 +34,4 @@ App.propTypes = {
   usersList: PropTypes.array.isRequired,
 }
 
-export default connect(mapStateToProps, { getUsersList })(App)
+export default connect(null, { getUsersList })(App)

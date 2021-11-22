@@ -1,37 +1,56 @@
-import PropTypes from 'prop-types'
+// base
 import React from 'react'
-// import './employeesList.css'
-// import _ from 'lodash'
-import { connect } from 'react-redux'
-import { getUsersList } from '../../redux/actions/usersActions'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
-function ListItem({ employee }) {
-  const handleChangeActive = (e) => {
+// redux
+import { connect } from 'react-redux'
+import { updateUser } from '../../redux/actions/usersActions'
+
+// components
+import RadioInput from './RadioInput'
+
+// styles
+import './employeesList.css'
+
+const ListItem = ({ employee, updateUser }) => {
+  const handleChangeActive = (id) => (e) => {
     const { value } = e.target
-    console.log(value)
+    updateUser(id, value === 'true')
   }
+
+  const inputs = [
+    {
+      id: employee.id,
+      title: 'active',
+      value: 'true',
+      checked: employee.selected,
+    },
+    {
+      id: employee.id,
+      title: 'not active',
+      value: 'false',
+      checked: !employee.selected,
+    },
+  ]
 
   return (
     <div>
-      {`${employee.firstName} ${employee.lastName}`}
-      <div onChange={handleChangeActive}>
-        <input type="radio" value={true} name="gender" /> active
-        <input type="radio" value={false} name="gender" /> not active
+      <p
+        className={classNames('employeeName', employee.selected && 'checkedName')}
+      >{`${employee.firstName} ${employee.lastName}`}</p>
+      <div className="inputsContainer" onChange={handleChangeActive(employee.id)}>
+        {inputs.map((item, index) => (
+          <RadioInput key={index} id={item.id} title={item.title} value={item.value} selected={item.checked} />
+        ))}
       </div>
     </div>
   )
 }
 
-const mapStateToProps = (store) => {
-  const { usersList } = store.users
-  return {
-    usersList,
-  }
-}
-
 ListItem.propTypes = {
-  getUsersList: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
   employee: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, { getUsersList })(ListItem)
+export default connect(null, { updateUser })(ListItem)

@@ -1,7 +1,9 @@
-.root {
+.employeesListRoot {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
+    align-items: center;
+    padding: 10px;
 }
 
 .lettersList {
@@ -25,17 +27,19 @@
 }
 
 .letter {
+    display: flex;
+    justify-content: center;
     margin: 0;
     padding: 10px;
     border-bottom: 1px solid whitesmoke;
 }
 
-.radioInput {
+.radioButton {
     display: flex;
     margin: 5px;
 }
 
-.inputsContainer {
+.buttonsContainer {
     display: flex;
     flex-direction: column;
 }
@@ -47,4 +51,19 @@
 
 .checkedName {
     color: blue;
+}
+
+.spinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.listItem {
+    margin: 5px 0;
+}
+
+.noData {
+    text-align: center;
 }

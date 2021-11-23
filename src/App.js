@@ -1,6 +1,7 @@
 // base
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import classNames from 'classnames'
 
 // redux
 import { connect } from 'react-redux'
@@ -14,16 +15,21 @@ import EmployeesList from './components/EmployeesList'
 import EmployeesBirthday from './components/EmployeesBirthday'
 
 const App = ({ getUsersList }) => {
+  const [loading, setLoading] = useState(true)
   // get users list from api on mount
-  useEffect(() => getUsersList(), [])
+  useEffect(() =>
+    getUsersList()
+      .then(() => setLoading(false))
+      .catch((error) => alert(error)), []
+  )
 
   return (
-    <div className="app">
+    <div className={classNames('app', loading && 'appEmptyState')}>
       <div className="employeesList">
-        <EmployeesList />
+        <EmployeesList loading={loading} />
       </div>
       <div className="employeesBirthday">
-        <EmployeesBirthday />
+        <EmployeesBirthday loading={loading} />
       </div>
     </div>
   )
@@ -31,7 +37,6 @@ const App = ({ getUsersList }) => {
 
 App.propTypes = {
   getUsersList: PropTypes.func.isRequired,
-  usersList: PropTypes.array.isRequired,
 }
 
 export default connect(null, { getUsersList })(App)

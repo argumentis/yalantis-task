@@ -8,19 +8,20 @@ export const UPDATE_SELECTED_LIST = 'UPDATE_SELECTED_LIST'
 
 export const getUsersList = () => {
   return (dispatch, getState) => {
-    axios
-      .get('https://yalantis-react-school-api.yalantis.com/api/task0/users')
+    return axios.get('https://yalantis-react-school-api.yalantis.com/api/task0/users')
       .then((res) => {
         const usersData = _.get(res, 'data', [])
         const selectedUsers = _.get(getState(), 'users.selectedUsers', [])
+
         // checking users on selected
         const upgradedArray = usersData.map((item) => {
           if (selectedUsers.includes(item.id)) return { ...item, selected: true }
           return { ...item, selected: false }
         })
+
         dispatch({ type: 'UPDATE_USERS_LIST', payload: upgradedArray })
+        return res
       })
-      .catch((error) => alert(error))
   }
 }
 

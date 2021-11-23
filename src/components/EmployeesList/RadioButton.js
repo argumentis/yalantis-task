@@ -7,8 +7,12 @@ import './employeesList.css'
 
 const RadioInput = ({ id, selected, title, value }) => {
   return (
-    <div className="radioInput">
-      <input type="radio" name={id} value={value} defaultChecked={selected} />
+    <div className="radioButton">
+      <input
+        type="radio"
+        name={id}
+        value={value}
+        defaultChecked={selected}/>
       <div>{title}</div>
     </div>
   )

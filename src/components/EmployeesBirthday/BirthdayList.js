@@ -8,13 +8,17 @@ import './employeesBirthday.css'
 
 const BirthdayList = ({ monthName, employeesInMonth }) => {
 
+  const byField = (field) => {
+    return (a, b) => a[field] > b[field] ? 1 : -1
+  }
+
   return (
     <div className="flexContainer">
       <h4>{monthName}</h4>
       {_.isEmpty(employeesInMonth) ?
         <p>No Employees</p> :
         <div className="flexContainer">
-          {employeesInMonth.map((item) => (
+          {employeesInMonth.sort(byField('lastName')).map((item) => (
             <p key={item.id}>
               {`${item.lastName} ${item.firstName} - ${item.dob}`}
             </p>

@@ -17,20 +17,20 @@ const ListItem = ({ employee, updateUser }) => {
 
   const handleChangeActive = (id) => (e) => {
     const { value } = e.target
-    updateUser(id, value === 'true')
+    updateUser(id, value === 'active')
   }
 
   const buttons = [
     {
       id: employee.id,
       title: 'active',
-      value: 'true',
+      value: 'active',
       checked: employee.selected,
     },
     {
       id: employee.id,
       title: 'not active',
-      value: 'false',
+      value: 'noActive',
       checked: !employee.selected,
     },
   ]
